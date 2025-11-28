@@ -1,0 +1,457 @@
+/* App.css - Pure CSS Styling */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.app-container {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Animated Background */
+.background-overlay {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    width: 384px;
+    height: 384px;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.orb-1 {
+    background: rgba(168, 85, 247, 0.3);
+    top: -80px;
+    left: -80px;
+}
+
+.orb-2 {
+    background: rgba(59, 130, 246, 0.3);
+    top: 160px;
+    right: -80px;
+    animation-delay: 1s;
+}
+
+.orb-3 {
+    background: rgba(236, 72, 153, 0.3);
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 2s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+/* Noise Overlay */
+.noise-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
+
+/* Main Wrapper */
+.main-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 448px; /* Default width for the registration form */
+    z-index: 1;
+}
+
+/* Glass Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.icon-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    border-radius: 50%;
+    margin-bottom: 16px;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #d1d5db;
+    font-size: 14px;
+}
+
+/* Message Alert */
+.message {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.message.hidden {
+    display: none;
+}
+
+.message.success {
+    background: rgba(34, 197, 94, 0.2);
+    border: 1px solid rgba(34, 197, 94, 0.5);
+    color: #d1fae5;
+}
+
+.message.error {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #fecaca;
+}
+
+/* Form */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    display: block;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.3);
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    /* Custom SVG for dropdown arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 24px;
+    padding-right: 48px;
+}
+
+.form-group select option {
+    background: #1f2937;
+    color: white;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.submit-btn:hover {
+    background: #1f2937;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    background: #000; /* Revert hover effect when disabled */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer */
+.footer {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.count-text {
+    color: #d1d5db;
+    font-size: 14px;
+}
+
+.count-number {
+    color: white;
+    font-weight: 600;
+}
+
+/* Responsive (Default) */
+@media (max-width: 480px) {
+    .glass-card {
+        padding: 24px;
+    }
+    
+    .title {
+        font-size: 24px;
+    }
+    
+    .orb {
+        width: 256px;
+        height: 256px;
+    }
+}
+
+/* --- NEW STYLES FOR NAVIGATION AND LIST PAGE --- */
+
+/* Style for the "View Registered List" link button on index.html */
+.view-list-link {
+    display: block; 
+    text-align: center;
+    margin-top: 16px; 
+    text-decoration: none; 
+    background: #1f2937; 
+}
+
+.view-list-link:hover {
+    background: #374151;
+}
+
+/* Style for the "Back to Registration" button on list.html */
+.back-btn {
+    margin-top: 0; 
+}
+
+/* --- CUSTOM WIDE LAYOUT FOR LIST PAGE --- */
+
+.main-wrapper.wide-layout {
+    max-width: 1000px; 
+    width: 95%;      
+}
+
+.glass-card.list-card {
+    padding: 32px;
+    width: 100%; 
+}
+
+/* Container for the table data */
+.list-container {
+    margin-bottom: 20px;
+    overflow-x: auto; 
+    padding-bottom: 10px;
+    /* No overflow-x on desktop/wide screens */
+}
+
+/* --- Student List Table Styles (for list.html) --- */
+
+.student-table {
+    width: 100%; 
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: left;
+    border-radius: 12px;
+    overflow: hidden; 
+}
+
+.student-table th, 
+.student-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+    color: white;
+    white-space: nowrap;
+    min-width: 100px;
+}
+
+.student-table th {
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    color: #a855f7; 
+}
+
+.student-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05); 
+    cursor: pointer; /* Indicate rows are clickable for actions */
+}
+
+.loading-message, .empty-message {
+    color: #d1d5db;
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Mobile Fallback: Re-introduce scrolling ONLY for small screens (e.g., phones) */
+@media (max-width: 600px) {
+    .main-wrapper.wide-layout {
+        max-width: 95%; 
+        overflow-x: 95%; 
+    }
+    
+    .list-container {
+        /*width: 650px;*/
+        overflow-x: auto;
+    }
+    
+    .student-table {
+        min-width: 600px; 
+    }
+}
+
+/* --- MODAL STYLES FOR CRUD --- */
+
+.modal {
+    position: fixed;
+    z-index: 100; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 400px; 
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #a855f7;
+    text-decoration: none;
+}
+
+.modal-display p, .modal-display strong {
+    color: #d1d5db;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.action-btn {
+    flex-grow: 1;
+}
+
+.delete-btn {
+    background: #ef4444; 
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+.update-btn {
+    background: #3b82f6; 
+}
+
+.update-btn:hover {
+    background: #2563eb;
+}
+
+#delete-confirmation {
+    text-align: center;
+    padding: 20px 0;
+}

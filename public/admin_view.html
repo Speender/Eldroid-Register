@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Attendance & List</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/html5-qrcode@2.3.4/html5-qrcode.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <div class="background-overlay">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="noise-overlay"></div>
+
+        <div class="main-wrapper wide-layout"> 
+            <div class="glass-card list-card">
+                <div class="header">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scan-line"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>
+                    </div>
+                    <h1 class="title">Attendance Scanner</h1>
+                    <p class="subtitle">Scan student QR code to mark them Present.</p>
+                </div>
+                
+                <div id="scanner-area" style="text-align: center; margin-bottom: 20px;">
+                    <div id="reader" style="width: 100%; max-width: 400px; margin: 0 auto; border: 2px solid #a855f7; border-radius: 12px; overflow: hidden;"></div>
+                    <div id="scan-message" class="message hidden success" style="margin-top: 15px;">Scanning...</div>
+                </div>
+
+                <button id="toggle-list-btn" class="submit-btn view-list-link" style="margin-bottom: 20px;">Show/Hide Student List</button>
+
+                <div id="student-list-section" class="hidden">
+                    <div class="header" style="margin-bottom: 10px;">
+                        <h2 class="title" style="font-size: 24px;">Registered Students</h2>
+                        <p class="subtitle">Total: <span id="count-number" class="count-number">0</span></p>
+                    </div>
+                    
+                    <div class="list-container">
+                        <table id="student-table" class="student-table">
+                            <thead>
+                                <tr>
+                                    <th>ID No.</th>
+                                    <th>Last Name</th>
+                                    <th>Status</th>
+                                    <th>Course</th>
+                                    <th>Level</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-list-body">
+                                </tbody>
+                        </table>
+                        
+                        <p id="loading-message" class="loading-message">Loading student data...</p>
+                        <p id="empty-message" class="empty-message hidden">No students registered yet.</p>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <button id="logout-btn" class="submit-btn delete-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="action-modal" class="modal hidden">
+        <div class="modal-content glass-card">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title" class="title"></h2>
+            
+            <div id="modal-display" class="modal-display">
+                <p>Selected Student ID: <strong id="selected-id"></strong></p>
+                <p>Name: <span id="selected-name"></span></p>
+            </div>
+
+            <div id="update-form-container" class="form-container hidden">
+                <input type="hidden" id="update-idno"> 
+                <div class="form-group">
+                    <label for="updateLastName">Last Name</label>
+                    <input type="text" id="updateLastName">
+                </div>
+                <div class="form-group">
+                    <label for="updateFirstName">First Name</label>
+                    <input type="text" id="updateFirstName">
+                </div>
+                
+                <div class="form-group">
+                    <label for="updateCourse">Course</label>
+                    <select id="updateCourse" name="updateCourse">
+                        <option value="">Select Course</option>
+                        <option value="BSCS">BS Computer Science</option>
+                        <option value="BSES">BS Environmental Science</option>
+                        <option value="BSIT">BS Information Technology</option>
+                        <option value="BSEE">BS Electrical Engineering</option>
+                        <option value="BSCE">BS Civil Engineering</option>
+                        <option value="BSN">BS Nursing</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="updateYearLevel">Year Level</label>
+                    <select id="updateYearLevel">
+                        <option value="">Select Level</option>
+                        <option value="1">Year 1</option>
+                        <option value="2">Year 2</option>
+                        <option value="3">Year 3</option>
+                        <option value="4">Year 4</option>
+                        <option value="5">Year 5</option>
+                    </select>
+                </div>
+                <button id="confirm-update-btn" class="submit-btn update-btn">Confirm Update</button>
+            </div>
+
+            <div id="action-buttons" class="button-group">
+                <button id="update-action-btn" class="submit-btn action-btn update-btn">Update</button>
+                <button id="delete-action-btn" class="submit-btn action-btn delete-btn">Delete</button>
+            </div>
+            
+            <div id="delete-confirmation" class="hidden">
+                 <p class="subtitle">Are you sure you want to delete this student?</p>
+                 <button id="confirm-delete-btn" class="submit-btn delete-btn">Yes, Delete</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="admin_view.js"></script>
+</body>
+</html>

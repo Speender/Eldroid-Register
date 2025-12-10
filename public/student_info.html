@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Info</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="background-overlay">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="noise-overlay"></div>
+
+        <div class="main-wrapper">
+            <div class="glass-card">
+                <div class="header">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.42 10.97c-.8-1.54-1.2-2.3-1.2-3.04C20.22 7.21 20 6.67 20 6c0-.5-.5-1-1-1H5c-.5 0-1 .5-1 1 0 .67-.22 1.21-.22 1.93 0 .74-.4 1.5-1.2 3.04C2.17 12.57 2 13.32 2 14c0 1.5 1.5 3 3 3h13.5c.83 0 1.5-.67 1.5-1.5 0-.68-.17-1.43-.68-2.53z"/><path d="M12 21v-4"/><path d="M12 3v2"/></svg>
+                    </div>
+                    <h1 class="title">Welcome, <span id="student-name"></span></h1>
+                    <p class="subtitle">Your unique ID and QR code.</p>
+                </div>
+
+                <div class="form-container" style="text-align: center;">
+                    <p class="count-text" style="color: white; font-size: 16px;">Student ID: <strong id="student-id-display"></strong></p>
+                    <p class="count-text" id="student-details"></p>
+
+                    <h2 class="title" style="font-size: 20px; margin: 20px 0 10px 0;">QR Code</h2>
+                    <div id="qr-code-container" style="padding: 10px; background: white; max-width: 250px; margin: 0 auto; border-radius: 12px;">
+                        <img id="qr-code-image" src="" alt="Student QR Code" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <a href="login.html" class="submit-btn back-btn">← Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="student_info.js"></script>
+</body>
+</html>

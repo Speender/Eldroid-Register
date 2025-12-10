@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="background-overlay">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="noise-overlay"></div>
+
+        <div class="main-wrapper">
+            <div class="glass-card">
+                <div class="header">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 21 2-2 4 4"/><path d="m22 17-4-4"/></svg>
+                    </div>
+                    <h1 class="title">Student Login</h1>
+                    <p class="subtitle">Access your information and QR Code</p>
+                </div>
+
+                <div id="message-alert" class="message hidden">
+                    <span id="message-text"></span>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="studentId">Student ID No.</label>
+                        <input type="text" id="studentId" name="studentId" placeholder="Enter your ID number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPassword">Password</label>
+                        <input type="password" id="studentPassword" name="studentPassword" placeholder="Enter your password" required>
+                    </div>
+
+                    <button id="student-login-btn" class="submit-btn">Login as Student</button>
+                </div>
+                
+                <div class="footer">
+                    <p class="count-text">New Student? 
+                        <a href="register.html" class="footer-link">Register Here</a>
+                    </p>
+                    
+                    <a href="admin_login.html" class="submit-btn view-list-link" style="display: block; text-decoration: none; margin-top: 20px;">Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>

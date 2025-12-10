@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="background-overlay">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="noise-overlay"></div>
+
+        <div class="main-wrapper">
+            <div class="glass-card">
+                <div class="header">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+                    </div>
+                    <h1 class="title">Register Student</h1>
+                    <p class="subtitle">Create your account & get your QR Code</p>
+                </div>
+
+                <div id="message-alert" class="message hidden">
+                    <span id="message-text"></span>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="studentId">ID No.</label>
+                        <input type="text" id="studentId" placeholder="Enter ID number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Create a password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Enter last name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" placeholder="Enter first name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course">Course</label>
+                        <select id="course" required>
+                            <option value="">Select Course</option>
+                            <option value="BSCS">BS Computer Science</option>
+                            <option value="BSIT">BS Information Technology</option>
+                            <option value="BSEE">BS Electrical Engineering</option>
+                            <option value="BSCE">BS Civil Engineering</option>
+                            <option value="BSN">BS Nursing</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="yearLevel">Year Level</label>
+                        <select id="yearLevel" required>
+                            <option value="">Select year level</option>
+                            <option value="1">Year 1</option>
+                            <option value="2">Year 2</option>
+                            <option value="3">Year 3</option>
+                            <option value="4">Year 4</option>
+                            <option value="5">Year 5</option>
+                        </select>
+                    </div>
+
+                    <button id="submit-btn" class="submit-btn">Register Student</button>
+                </div>
+
+                <div class="footer">
+                    <a href="login.html" class="submit-btn back-btn" style="display: block; text-align: center; text-decoration: none;">← Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="register.js"></script>
+</body>
+</html>

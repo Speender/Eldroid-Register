@@ -1,130 +1,160 @@
-// server.js - Node.js/Express Backend with SQLite
+// server.js - Node.js/Express Backend with SQLite and Authentication
 
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
+const bcrypt = require('bcrypt'); // Required for password hashing
+const qrcode = require('qrcode'); // Required for QR generation
 
 const app = express();
 const port = 3001;
+const SALT_ROUNDS = 10;
+const ADMIN_SECRET_KEY = '123456'; // Change this!
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(cors()); 
 app.use(express.json());
 
-// --- Database Setup (SQLite) ---
+// --- Database Setup ---
 const db = new sqlite3.Database('./student_registration.db', (err) => {
     if (err) {
         console.error('Error opening database:', err.message);
     } else {
-        console.log('Connected to the SQLite database.');
+        console.log('Connected to SQLite database.');
 
+        // 1. Students Table
         db.run(`CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             idNo TEXT UNIQUE NOT NULL,
             firstName TEXT NOT NULL,
             lastName TEXT NOT NULL,
             course TEXT NOT NULL,
-            level TEXT NOT NULL
-        )`, (createErr) => {
-            if (createErr) {
-                console.error('Error creating table:', createErr.message);
-            } else {
-                console.log('Students table is ready.');
-            }
-        });
+            level TEXT NOT NULL,
+            password TEXT NOT NULL,
+            qrCodeData TEXT UNIQUE,
+            status TEXT DEFAULT 'Absent'
+        )`);
+        
+        // 2. Admins Table
+        db.run(`CREATE TABLE IF NOT EXISTS admins (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )`);
     }
 });
 
-// --- API Routes ---
+// --- API ROUTES ---
 
-app.get('/api/students', (req, res) => {
+// 1. STUDENT REGISTRATION (Generates QR Code)
+app.post('/api/students/register', async (req, res) => {
+    const { studentId, firstName, lastName, course, yearLevel, password } = req.body;
 
-    const sql = 'SELECT idNo, firstName, lastName, course, level FROM students ORDER BY lastName, firstName'; 
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            console.error(err.message);
-            return res.status(500).json({ success: false, error: 'Database error fetching students.' });
-        }
-        res.json({ success: true, students: rows }); 
-    });
-});
-
-app.post('/api/students', (req, res) => {
-    const { studentId, firstName, lastName, course, yearLevel } = req.body;
-
-    if (!studentId || !firstName || !lastName || !course || !yearLevel) {
+    if (!studentId || !firstName || !lastName || !course || !yearLevel || !password) {
         return res.status(400).json({ success: false, error: 'All fields are required.' });
     }
-
-    const sql = `INSERT INTO students (idNo, firstName, lastName, course, level)
-                 VALUES (?, ?, ?, ?, ?)`;
     
-    const params = [studentId, firstName, lastName, course, yearLevel];
+    // The QR code will contain the Student ID
+    const qrCodeData = studentId; 
 
-    db.run(sql, params, function (err) {
-        if (err) {
-            console.error('Database insertion error:', err.message);
-            if (err.message.includes('UNIQUE constraint failed: students.idNo')) {
-                return res.status(409).json({ success: false, error: 'Student ID No. already registered.' });
+    try {
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+        
+        const sql = `INSERT INTO students (idNo, firstName, lastName, course, level, password, qrCodeData)
+                     VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        
+        const params = [studentId, firstName, lastName, course, yearLevel, hashedPassword, qrCodeData];
+
+        db.run(sql, params, function (err) {
+            if (err) {
+                if (err.message.includes('UNIQUE constraint failed')) {
+                    return res.status(409).json({ success: false, error: 'Student ID already registered.' });
+                }
+                console.error('Database error:', err.message);
+                return res.status(500).json({ success: false, error: 'Registration failed.' });
             }
-            return res.status(500).json({ success: false, error: 'Failed to register student.' });
+
+            // GENERATE QR CODE IMAGE
+            qrcode.toDataURL(qrCodeData, { errorCorrectionLevel: 'H' }, function (qrErr, url) {
+                if (qrErr) return res.status(500).json({ success: false, error: 'QR Gen Error' });
+                
+                // Send success response with the QR Code Image
+                res.status(201).json({ 
+                    success: true, 
+                    message: 'Registration Successful!',
+                    qrCodeImage: url, // This is the Base64 image string
+                    studentId: studentId
+                });
+            });
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Server error.' });
+    }
+});
+
+// 2. STUDENT LOGIN
+app.post('/api/students/login', (req, res) => {
+    const { studentId, password } = req.body;
+    const sql = `SELECT firstName, lastName, password, qrCodeData, level, course FROM students WHERE idNo = ?`;
+
+    db.get(sql, [studentId], async (err, row) => {
+        if (err || !row) return res.status(401).json({ success: false, error: 'Invalid ID or Password.' });
+        
+        const match = await bcrypt.compare(password, row.password);
+        if (match) {
+            // Generate QR for login response too
+            const qrCodeDataUrl = await qrcode.toDataURL(row.qrCodeData);
+            return res.json({ 
+                success: true, 
+                student: { ...row, qrCodeImage: qrCodeDataUrl }
+            });
+        } else {
+            return res.status(401).json({ success: false, error: 'Invalid ID or Password.' });
         }
-        res.status(201).json({ 
-            success: true, 
-            message: 'Student registered successfully!',
-            data: { id: this.lastID, studentId, lastName }
+    });
+});
+
+// 3. ADMIN LOGIN
+app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body;
+    db.get(`SELECT password FROM admins WHERE username = ?`, [username], async (err, row) => {
+        if (err || !row) return res.status(401).json({ success: false, error: 'Invalid Credentials.' });
+        const match = await bcrypt.compare(password, row.password);
+        if (match) res.json({ success: true });
+        else res.status(401).json({ success: false, error: 'Invalid Credentials.' });
+    });
+});
+
+// 4. ADMIN REGISTER
+app.post('/api/admin/register', async (req, res) => {
+    const { adminKey, username, password } = req.body;
+    if (adminKey !== ADMIN_SECRET_KEY) return res.status(403).json({ success: false, error: 'Invalid Key' });
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    db.run(`INSERT INTO admins (username, password) VALUES (?, ?)`, [username, hashedPassword], (err) => {
+        if (err) return res.status(400).json({ success: false, error: 'Error creating admin.' });
+        res.status(201).json({ success: true, message: 'Admin Created' });
+    });
+});
+
+// 5. ATTENDANCE SCAN
+app.post('/api/attendance/checkin', (req, res) => {
+    const { qrCodeData } = req.body;
+    db.run(`UPDATE students SET status = 'Present' WHERE qrCodeData = ?`, [qrCodeData], function(err) {
+        if (err || this.changes === 0) return res.status(404).json({ success: false, error: 'Student not found.' });
+        db.get(`SELECT firstName, lastName FROM students WHERE qrCodeData = ?`, [qrCodeData], (e, row) => {
+            res.json({ success: true, message: `Checked in: ${row.firstName} ${row.lastName}` });
         });
     });
 });
 
-app.put('/api/students/:idNo', (req, res) => {
-    const targetIdNo = req.params.idNo;
-    const { firstName, lastName, course, yearLevel } = req.body;
-
-    if (!firstName || !lastName || !course || !yearLevel) {
-        return res.status(400).json({ success: false, error: 'All fields are required for update.' });
-    }
-
-    const sql = `UPDATE students 
-                 SET firstName = ?, lastName = ?, course = ?, level = ?
-                 WHERE idNo = ?`;
-    
-    const params = [firstName, lastName, course, yearLevel, targetIdNo];
-
-    db.run(sql, params, function (err) {
-        if (err) {
-            console.error('Database update error:', err.message);
-            return res.status(500).json({ success: false, error: 'Failed to update student.' });
-        }
-        if (this.changes === 0) {
-            return res.status(404).json({ success: false, error: 'Student not found.' });
-        }
-        res.json({ success: true, message: 'Student updated successfully!' });
+// 6. GET ALL STUDENTS (Admin View)
+app.get('/api/students', (req, res) => {
+    db.all('SELECT idNo, firstName, lastName, course, level, status FROM students', [], (err, rows) => {
+        res.json({ success: true, students: rows });
     });
 });
 
-app.delete('/api/students/:idNo', (req, res) => {
-    const idNoToDelete = req.params.idNo;
-
-    const sql = `DELETE FROM students WHERE idNo = ?`;
-
-    db.run(sql, idNoToDelete, function (err) {
-        if (err) {
-            console.error('Database deletion error:', err.message);
-            return res.status(500).json({ success: false, error: 'Failed to delete student.' });
-        }
-        if (this.changes === 0) {
-            return res.status(404).json({ success: false, error: 'Student not found.' });
-        }
-        res.json({ success: true, message: 'Student deleted successfully!' });
-    });
-});
-
-
-// --- Start Server ---
 app.listen(port, "0.0.0.0", () => {
-    console.log(`Server is running.`);
-    console.log(`Access the application at: http://localhost:${port}/index.html`); 
+    console.log(`Server running at http://localhost:${port}/login.html`);
 });

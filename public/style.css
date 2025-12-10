@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
 .app-container {
     min-height: 100vh;
     width: 100%;
@@ -18,7 +22,7 @@
     padding: 20px;
 }
 
-/* Animated Background */
+/* --- Animated Background --- */
 .background-overlay {
     position: absolute;
     inset: 0;
@@ -66,7 +70,7 @@
     }
 }
 
-/* Noise Overlay */
+/* --- Noise Overlay --- */
 .noise-overlay {
     position: absolute;
     inset: 0;
@@ -75,15 +79,22 @@
     background-repeat: repeat;
 }
 
-/* Main Wrapper */
+/* --- Main Layout Wrappers --- */
 .main-wrapper {
     position: relative;
     width: 100%;
-    max-width: 448px; /* Default width for the registration form */
+    max-width: 448px; /* Default width for Login/Registration */
     z-index: 1;
+    transition: max-width 0.3s ease;
 }
 
-/* Glass Card */
+/* Wide layout for the Admin/List View on Desktop */
+.main-wrapper.wide-layout {
+    max-width: 1000px; 
+    width: 95%;      
+}
+
+/* --- Glass Card --- */
 .glass-card {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
@@ -92,9 +103,15 @@
     padding: 32px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
 }
 
-/* Header */
+.glass-card.list-card {
+    padding: 32px;
+    width: 100%; 
+}
+
+/* --- Header --- */
 .header {
     text-align: center;
     margin-bottom: 32px;
@@ -123,7 +140,7 @@
     font-size: 14px;
 }
 
-/* Message Alert */
+/* --- Alerts --- */
 .message {
     margin-bottom: 24px;
     padding: 16px;
@@ -150,7 +167,7 @@
     color: #fecaca;
 }
 
-/* Form */
+/* --- Forms --- */
 .form-container {
     display: flex;
     flex-direction: column;
@@ -197,7 +214,6 @@
 .form-group select {
     cursor: pointer;
     appearance: none;
-    /* Custom SVG for dropdown arrow */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
@@ -210,7 +226,7 @@
     color: white;
 }
 
-/* Submit Button */
+/* --- Buttons --- */
 .submit-btn {
     width: 100%;
     padding: 16px;
@@ -223,6 +239,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    display: block;
+    text-decoration: none;
 }
 
 .submit-btn:hover {
@@ -235,11 +254,10 @@
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
-    background: #000; /* Revert hover effect when disabled */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    background: #000; 
 }
 
-/* Footer */
+/* --- Footer & Vibrant Links --- */
 .footer {
     margin-top: 24px;
     padding-top: 24px;
@@ -257,63 +275,46 @@
     font-weight: 600;
 }
 
-/* Responsive (Default) */
-@media (max-width: 480px) {
-    .glass-card {
-        padding: 24px;
-    }
-    
-    .title {
-        font-size: 24px;
-    }
-    
-    .orb {
-        width: 256px;
-        height: 256px;
-    }
+/* NEW: Bright Pink Link for "Register Here" / "Register New Admin" */
+.footer-link {
+    color: #e879f9; /* Bright Neon Pink */
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-left: 4px;
 }
 
-/* --- NEW STYLES FOR NAVIGATION AND LIST PAGE --- */
-
-/* Style for the "View Registered List" link button on index.html */
-.view-list-link {
-    display: block; 
-    text-align: center;
-    margin-top: 16px; 
-    text-decoration: none; 
-    background: #1f2937; 
+.footer-link:hover {
+    color: #f0abfc;
+    text-shadow: 0 0 10px rgba(232, 121, 249, 0.6);
+    text-decoration: underline;
 }
 
-.view-list-link:hover {
-    background: #374151;
-}
-
-/* Style for the "Back to Registration" button on list.html */
+/* NEW: Vibrant Gradient Buttons for "Admin Login" and "Back" */
+.view-list-link, 
 .back-btn {
-    margin-top: 0; 
+    margin-top: 15px; 
+    /* Gradient from Purple to Pink */
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-/* --- CUSTOM WIDE LAYOUT FOR LIST PAGE --- */
-
-.main-wrapper.wide-layout {
-    max-width: 1000px; 
-    width: 95%;      
+.view-list-link:hover, 
+.back-btn:hover {
+    background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
 }
 
-.glass-card.list-card {
-    padding: 32px;
-    width: 100%; 
-}
-
-/* Container for the table data */
+/* --- Table Styles (List View) --- */
 .list-container {
     margin-bottom: 20px;
-    overflow-x: auto; 
+    overflow-x: auto; /* Enable scroll if content is too wide */
     padding-bottom: 10px;
-    /* No overflow-x on desktop/wide screens */
 }
-
-/* --- Student List Table Styles (for list.html) --- */
 
 .student-table {
     width: 100%; 
@@ -342,7 +343,7 @@
 
 .student-table tbody tr:hover {
     background: rgba(255, 255, 255, 0.05); 
-    cursor: pointer; /* Indicate rows are clickable for actions */
+    cursor: pointer;
 }
 
 .loading-message, .empty-message {
@@ -356,25 +357,7 @@
     display: none !important;
 }
 
-/* Mobile Fallback: Re-introduce scrolling ONLY for small screens (e.g., phones) */
-@media (max-width: 600px) {
-    .main-wrapper.wide-layout {
-        max-width: 95%; 
-        overflow-x: 95%; 
-    }
-    
-    .list-container {
-        /*width: 650px;*/
-        overflow-x: auto;
-    }
-    
-    .student-table {
-        min-width: 600px; 
-    }
-}
-
-/* --- MODAL STYLES FOR CRUD --- */
-
+/* --- Modal Styles (CRUD) --- */
 .modal {
     position: fixed;
     z-index: 100; 
@@ -413,10 +396,8 @@
     right: 20px;
 }
 
-.close-btn:hover,
-.close-btn:focus {
+.close-btn:hover {
     color: #a855f7;
-    text-decoration: none;
 }
 
 .modal-display p, .modal-display strong {
@@ -438,7 +419,6 @@
 .delete-btn {
     background: #ef4444; 
 }
-
 .delete-btn:hover {
     background: #dc2626;
 }
@@ -446,7 +426,6 @@
 .update-btn {
     background: #3b82f6; 
 }
-
 .update-btn:hover {
     background: #2563eb;
 }
@@ -454,4 +433,29 @@
 #delete-confirmation {
     text-align: center;
     padding: 20px 0;
+}
+
+/* --- Responsive Media Queries --- */
+@media (max-width: 600px) {
+    .main-wrapper.wide-layout {
+        max-width: 95%; 
+        overflow-x: auto; /* Allow wrapper to scroll if needed on tiny screens */
+    }
+    
+    .list-container {
+        overflow-x: auto; /* Ensure table scrolls on mobile */
+    }
+    
+    .student-table {
+        min-width: 600px; 
+    }
+    
+    .glass-card {
+        padding: 24px;
+    }
+    
+    .orb {
+        width: 256px;
+        height: 256px;
+    }
 }

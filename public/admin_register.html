@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="background-overlay">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="noise-overlay"></div>
+
+        <div class="main-wrapper">
+            <div class="glass-card">
+                <div class="header">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <h1 class="title">Admin Registration</h1>
+                    <p class="subtitle">Requires Secret Key for Access</p>
+                </div>
+
+                <div id="message-alert" class="message hidden">
+                    <span id="message-text"></span>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="adminKey">Admin Key (Secret)</label>
+                        <input type="password" id="adminKey" placeholder="Enter secret key" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminUsername">Username</label>
+                        <input type="text" id="adminUsername" placeholder="Create username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" placeholder="Create password" required>
+                    </div>
+
+                    <button id="admin-register-btn" class="submit-btn update-btn">Register Admin</button>
+                </div>
+
+                <div class="footer">
+                    <a href="login.html" class="submit-btn back-btn">← Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="admin_register.js"></script>
+</body>
+</html>

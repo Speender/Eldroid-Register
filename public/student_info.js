@@ -42,6 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } else {
         alert('No student data found. Please login.');
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     }
 });

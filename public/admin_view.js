@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:3001/api';
 // Check login
 if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') {
     alert('Access Denied. Please log in as Admin.');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
 
 const studentListBody = document.getElementById('student-list-body');
@@ -246,5 +246,5 @@ toggleListBtn.addEventListener('click', () => {
 logoutBtn.addEventListener('click', () => {
     sessionStorage.removeItem('isAdminLoggedIn');
     html5QrcodeScanner.stop().catch(err => console.error("Scanner stop error", err));
-    window.location.href = 'login.html'; 
+    window.location.href = 'index.html'; 
 });
